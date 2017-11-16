@@ -8,9 +8,11 @@ namespace StatlerWaldorfCorp.TeamService
     {
         TeamsController controller = new TeamsController();
 
+        [Fact]
         public void QueryTeamListReturnsCorrectTeams()
         {
             List<Team> teams = new List<Team>(controller.GetAllTeams());
+            Assert.Equal(teams.Count, 2);
         }
     }
 }
