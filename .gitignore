@@ -1,3 +1,4 @@
 .vscode
 src/StatlerWaldorfCorp.TeamService/obj
 test/StatlerWaldorfCorp.TeamService.Tests/obj
+src/StatlerWaldorfCorp.TeamService/bin
