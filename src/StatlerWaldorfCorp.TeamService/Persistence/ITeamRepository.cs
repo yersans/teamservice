@@ -3,7 +3,7 @@ using StatlerWaldorfCorp.TeamService.Models;
 
 namespace StatlerWaldorfCorp.TeamService.Persistence
 {
-    interface ITeamRepository
+    public interface ITeamRepository
     {
         IEnumerable<Team> GetTeams();
         void AddTeam(Team team);
