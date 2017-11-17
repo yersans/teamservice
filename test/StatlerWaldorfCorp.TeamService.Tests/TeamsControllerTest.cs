@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StatlerWaldorfCorp.TeamService.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace StatlerWaldorfCorp.TeamService
 {
@@ -29,6 +30,7 @@ namespace StatlerWaldorfCorp.TeamService
 
             Team t = new Team("sample");
             var result = controller.CreateTeam(t);
+            Assert.Equal(201, (result as ObjectResult).StatusCode);
 
             var newTeamsRaw = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
             List<Team> newTeams = new List<Team>(newTeamsRaw);
@@ -37,6 +39,21 @@ namespace StatlerWaldorfCorp.TeamService
 
             var sampleTeam = newTeams.FirstOrDefault(team => team.Name == "sample");
             Assert.NotNull(sampleTeam);
+        }
+
+        [Fact]
+        public void GetTeamRetrievesTeam()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+
+            string sampleName = "sample";
+            Guid id = Guid.NewGuid();
+            Team sampleTeam = new Team(sampleName, id);
+            controller.CreateTeam(sampleTeam);
+
+            Team retrievedTeam = (Team)(controller.GetTeam(id) as ObjectResult).Value;
+            Assert.Equal(sampleName, retrievedTeam.Name);
+            Assert.Equal(id, retrievedTeam.ID);
         }
     }
 }

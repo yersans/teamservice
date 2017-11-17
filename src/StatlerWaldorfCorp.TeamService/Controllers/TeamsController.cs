@@ -31,5 +31,19 @@ namespace StatlerWaldorfCorp.TeamService
             repository.AddTeam(t);
             return this.Created($"/teams/{t.ID}", t);
         }
+
+        public IActionResult GetTeam(Guid id)
+        {
+            Team team = repository.Get(id);
+
+            if (team != null)
+            {
+                return this.Ok(team);
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
     }
 }
