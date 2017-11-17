@@ -6,21 +6,23 @@ using System.Collections.Generic;
 using System.Linq;
 using StatlerWaldorfCorp.TeamService.Models;
 using StatlerWaldorfCorp.TeamService.Persistence;
+using System.Threading.Tasks;
 
 namespace StatlerWaldorfCorp.TeamService
 {
-    public class TeamsController
+    public class TeamsController : Controller
     {
         ITeamRepository repository;
+
         public TeamsController(ITeamRepository repo)
         {
             repository = repo;
         }
 
         [HttpGet]
-        public IEnumerable<Team> GetAllTeams()
+        public async virtual Task<IActionResult> GetAllTeams()
         {
-            return new Team[] { new Team("one"), new Team("two") };
+            return this.Ok(repository.GetTeams());
         }
     }
 }

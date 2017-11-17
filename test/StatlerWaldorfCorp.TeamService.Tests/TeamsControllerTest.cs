@@ -2,18 +2,22 @@ using Xunit;
 using StatlerWaldorfCorp.TeamService.Models;
 using System.Collections.Generic;
 using System.Linq;
+using StatlerWaldorfCorp.TeamService.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StatlerWaldorfCorp.TeamService
 {
     public class TeamsControllerTest
     {
-        TeamsController controller = new TeamsController();
-
         [Fact]
         public void QueryTeamListReturnsCorrectTeams()
         {
-            List<Team> teams = new List<Team>(controller.GetAllTeams());
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            var rawTeams = (IEnumerable<Team>)(controller.GetAllTeams().Result as ObjectResult).Value;
+            List<Team> teams = new List<Team>(rawTeams);
             Assert.Equal(2, teams.Count);
+            Assert.Equal("one", teams[0].Name);
+            Assert.Equal("two", teams[1].Name);
         }
 
         [Fact]
