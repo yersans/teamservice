@@ -20,9 +20,16 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
         [HttpGet]
-        public async virtual Task<IActionResult> GetAllTeams()
+        public virtual IActionResult GetAllTeams()
         {
             return this.Ok(repository.GetTeams());
+        }
+
+        [HttpPost]
+        public IActionResult CreateTeam(Team t)
+        {
+            repository.AddTeam(t);
+            return this.Created($"/teams/{t.ID}", t);
         }
     }
 }
