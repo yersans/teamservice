@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StatlerWaldorfCorp.TeamService.Models;
 using StatlerWaldorfCorp.TeamService.Persistence;
@@ -34,7 +35,25 @@ namespace StatlerWaldorfCorp.TeamService
 
         public IActionResult GetMember(Guid teamId, Guid memberId)
         {
-            throw new NotImplementedException();
+            Team team = repository.Get(teamId);
+            
+            if (team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                var q = team.Members.Where(m => m.ID == memberId);
+                
+                if (q.Count()<1)
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    return this.Ok(q.First());
+                }
+            }
         }
     }
 }
