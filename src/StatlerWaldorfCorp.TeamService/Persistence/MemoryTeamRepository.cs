@@ -37,5 +37,37 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
         {
             return teams.FirstOrDefault(t => t.ID == id);
         }
+
+        public Team Update(Team team)
+        {
+            Team t = this.Delete(team.ID);
+
+            if (t != null)
+            {
+                t = this.Add(team);
+            }
+
+            return t;
+        }
+
+        private Team Add(Team team)
+        {
+            teams.Add(team);
+            return team;
+        }
+
+        private Team Delete(Guid id)
+        {
+            var q = teams.Where(t => t.ID == id);
+            Team team = null;
+
+            if (q.Count()>0)
+            {
+                team = q.First();
+                teams.Remove(team);
+            }
+
+            return team;
+        }
     }
 }

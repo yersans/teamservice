@@ -55,5 +55,36 @@ namespace StatlerWaldorfCorp.TeamService
             Assert.Equal(sampleName, retrievedTeam.Name);
             Assert.Equal(id, retrievedTeam.ID);
         }
+
+        [Fact]
+        public void GetNonExistentTeamReturnsNotFound()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+
+            Guid id = Guid.NewGuid();
+            var team = controller.GetTeam(id);
+            Assert.True(team is NotFoundResult);
+        }
+
+        [Fact]
+        public void UpdateTeamModifiesTeamToList()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+
+            Guid id = Guid.NewGuid();
+            Team team = new Team("sample", id);
+            controller.CreateTeam(team);
+
+            Team newTeam =  new Team("sample2", id);
+            controller.UpdateTeam(newTeam, id);
+
+            var newTeamsRaw = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            List<Team> newTeams = new List<Team>(newTeamsRaw);
+            var sampleTeam = newTeams.FirstOrDefault(t => t.Name == "sample");
+            Assert.Null(sampleTeam);
+
+            Team retrievedTeam = (Team)(controller.GetTeam(id) as ObjectResult).Value;
+            Assert.Equal("sample2", retrievedTeam.Name);
+        }
     }
 }

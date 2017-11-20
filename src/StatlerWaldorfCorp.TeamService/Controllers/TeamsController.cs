@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace StatlerWaldorfCorp.TeamService
 {
+    [Route("[controller]")]
     public class TeamsController : Controller
     {
         ITeamRepository repository;
@@ -32,6 +33,7 @@ namespace StatlerWaldorfCorp.TeamService
             return this.Created($"/teams/{t.ID}", t);
         }
 
+        [HttpGet("{id}")]
         public IActionResult GetTeam(Guid id)
         {
             Team team = repository.Get(id);
@@ -43,6 +45,21 @@ namespace StatlerWaldorfCorp.TeamService
             else
             {
                 return this.NotFound();
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTeam(Team team, Guid id)
+        {
+            team.ID = id;
+
+            if (repository.Update(team) == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                return this.Ok(team);
             }
         }
     }

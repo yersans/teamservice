@@ -10,5 +10,6 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
         IEnumerable<Team> GetTeams();
         void AddTeam(Team team);
         Team Get(Guid id);
+        Team Update(Team team);
     }
 }
