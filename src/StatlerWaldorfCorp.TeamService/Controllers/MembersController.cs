@@ -1,10 +1,12 @@
 using System;
+using Microsoft.AspNetCore.Mvc;
 using StatlerWaldorfCorp.TeamService.Models;
 using StatlerWaldorfCorp.TeamService.Persistence;
 
 namespace StatlerWaldorfCorp.TeamService
 {
-    public class MembersController
+    [Route("/teams/{teamId}/[controller]")]
+    public class MembersController : Controller
     {
         private ITeamRepository repository;
 
@@ -13,9 +15,21 @@ namespace StatlerWaldorfCorp.TeamService
             repository = repo;
         }
 
-        public void CreateMember(Member newMember, Guid teamId)
+        [HttpPost]
+        public IActionResult CreateMember(Member newMember, Guid teamId)
         {
-            throw new NotImplementedException();
+            Team team = repository.Get(teamId);
+
+            if (team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                team.Members.Add(newMember);
+                var teamMember = new { TeamID = team.ID, MemberID = newMember.ID };
+                return this.Created($"/teams/{teamMember.TeamID}/[controller]/{teamMember.MemberID}", teamMember);
+            }
         }
     }
 }
