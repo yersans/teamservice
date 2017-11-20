@@ -138,5 +138,51 @@ namespace StatlerWaldorfCorp.TeamService
             //Then
             Assert.True(result is NotFoundResult);
         }
+
+        [Fact]
+        public void GetNonExistantMemberReturnsNotFound()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            repository.Add(team);
+            //When
+            var result = controller.GetMember(teamId, Guid.NewGuid());
+            //Then
+            Assert.True(result is NotFoundResult);
+        }
+
+        [Fact]
+        public void UpdateMemberOverwrites()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            repository.Add(team);
+
+            Guid memberId = Guid.NewGuid();
+            Member newMember = new Member(memberId);
+            newMember.FirstName = "Jim";
+            newMember.LastName = "Smith";
+            controller.CreateMember(newMember, teamId);
+
+            Member updatedMember = new Member(memberId);
+            updatedMember.FirstName = "Bob";
+            updatedMember.LastName = "Jones";
+            controller.UpdateMember(updatedMember, teamId, memberId);
+
+            team = repository.Get(teamId);
+            //When
+            Member testMember = team.Members.Where(m => m.ID == memberId).First();
+            //Then
+            Assert.Equal("Bob", testMember.FirstName);
+            Assert.Equal("Jones", testMember.LastName);
+        }
     }
 }
