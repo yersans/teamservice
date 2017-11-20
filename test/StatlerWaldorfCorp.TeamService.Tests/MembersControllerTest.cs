@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StatlerWaldorfCorp.TeamService;
 using StatlerWaldorfCorp.TeamService.Models;
@@ -65,6 +67,36 @@ namespace StatlerWaldorfCorp.TeamService
             var member = (Member)(controller.GetMember(teamId, memberId) as ObjectResult).Value;
             //Then
             Assert.Equal(newMember.ID, member.ID);
+        }
+
+        [Fact]
+        public void GetMembersReturnsMembers()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            repository.Add(team);
+
+            Guid firstMemberId = Guid.NewGuid();
+            Member newMember = new Member(firstMemberId);
+            newMember.FirstName = "Jim";
+            newMember.LastName = "Smith";
+            controller.CreateMember(newMember, teamId);
+
+            Guid secondMemberId = Guid.NewGuid();
+            newMember = new Member(secondMemberId);
+            newMember.FirstName = "John";
+            newMember.LastName = "Doe";
+            controller.CreateMember(newMember, teamId);
+            //When
+            ICollection<Member> members = (ICollection<Member>)(controller.GetMembers(teamId) as ObjectResult).Value;
+            //Then
+            Assert.Equal(2, members.Count);
+            Assert.NotNull(members.Where(m => m.ID == firstMemberId).First());
+            Assert.NotNull(members.Where(m => m.ID == secondMemberId).First());
         }
     }
 }

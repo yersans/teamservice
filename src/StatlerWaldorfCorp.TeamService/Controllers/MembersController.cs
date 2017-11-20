@@ -55,5 +55,10 @@ namespace StatlerWaldorfCorp.TeamService
                 }
             }
         }
+
+        public ObjectResult GetMembers(Guid teamId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
