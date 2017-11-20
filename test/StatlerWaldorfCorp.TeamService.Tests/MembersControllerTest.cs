@@ -44,5 +44,27 @@ namespace StatlerWaldorfCorp.TeamService
             //Then
             Assert.True(result is NotFoundResult);
         }
+
+        [Fact]
+        public void GetExistingMemberReturnsMember()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            repository.Add(team);
+
+            Guid memberId = Guid.NewGuid();
+            Member newMember = new Member(memberId);
+            newMember.FirstName = "Jim";
+            newMember.LastName = "Smith";
+            controller.CreateMember(newMember, teamId);
+            //When
+            var member = (Member)(controller.GetMember(teamId, memberId) as ObjectResult).Value;
+            //Then
+            Assert.Equal(newMember.ID, member.ID);
+        }
     }
 }

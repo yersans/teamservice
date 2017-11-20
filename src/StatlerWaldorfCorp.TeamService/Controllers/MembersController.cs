@@ -31,5 +31,10 @@ namespace StatlerWaldorfCorp.TeamService
                 return this.Created($"/teams/{teamMember.TeamID}/[controller]/{teamMember.MemberID}", teamMember);
             }
         }
+
+        public IActionResult GetMember(Guid teamId, Guid memberId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
