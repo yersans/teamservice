@@ -126,5 +126,17 @@ namespace StatlerWaldorfCorp.TeamService
             //Then
             Assert.True(result is NotFoundResult);
         }
+
+        [Fact]
+        public void GetNonExistantTeamReturnsNotFound()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+            //When
+            var result = controller.GetMember(Guid.NewGuid(), Guid.NewGuid());
+            //Then
+            Assert.True(result is NotFoundResult);
+        }
     }
 }
