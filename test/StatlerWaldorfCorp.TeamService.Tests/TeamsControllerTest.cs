@@ -75,7 +75,7 @@ namespace StatlerWaldorfCorp.TeamService
             Team team = new Team("sample", id);
             controller.CreateTeam(team);
 
-            Team newTeam =  new Team("sample2", id);
+            Team newTeam = new Team("sample2", id);
             controller.UpdateTeam(newTeam, id);
 
             var newTeamsRaw = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
@@ -96,6 +96,36 @@ namespace StatlerWaldorfCorp.TeamService
             Team newTeam = new Team("New Team", newTeamId);
 
             var result = controller.UpdateTeam(newTeam, newTeamId);
+            Assert.True(result is NotFoundResult);
+        }
+
+        [Fact]
+        public void DeleteTeamRemovesFromList()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+
+            Guid id = Guid.NewGuid();
+            Team sampleTeam = new Team("sample", id);
+            controller.CreateTeam(sampleTeam);
+
+            var teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            sampleTeam = teams.FirstOrDefault(t => t.ID == id);
+            Assert.NotNull(sampleTeam);
+
+            controller.DeleteTeam(id);
+
+            teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            sampleTeam = teams.FirstOrDefault(t => t.ID == id);
+            Assert.Null(sampleTeam);
+        }
+
+        [Fact]
+        public void DeleteNonExistentTeamReturnsNotFound()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            Guid id = Guid.NewGuid();
+            
+            var result = controller.DeleteTeam(id);
             Assert.True(result is NotFoundResult);
         }
     }

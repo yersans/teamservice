@@ -11,5 +11,6 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
         void AddTeam(Team team);
         Team Get(Guid id);
         Team Update(Team team);
+        Team Delete(Guid id);
     }
 }

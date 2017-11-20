@@ -62,5 +62,20 @@ namespace StatlerWaldorfCorp.TeamService
                 return this.Ok(team);
             }
         }
+
+        [HttpDelete("id")]
+        public IActionResult DeleteTeam(Guid id)
+        {
+            Team team = repository.Delete(id);
+
+            if (team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                return this.Ok(team.ID);
+            }
+        }
     }
 }

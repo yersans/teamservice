@@ -56,7 +56,7 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
             return team;
         }
 
-        private Team Delete(Guid id)
+        public Team Delete(Guid id)
         {
             var q = teams.Where(t => t.ID == id);
             Team team = null;
