@@ -33,6 +33,8 @@ namespace StatlerWaldorfCorp.TeamService
             }
         }
 
+        [HttpGet]
+        [Route("/teams/{teamId}/[controller]/{memberId}")]
         public IActionResult GetMember(Guid teamId, Guid memberId)
         {
             Team team = repository.Get(teamId);
@@ -56,6 +58,7 @@ namespace StatlerWaldorfCorp.TeamService
             }
         }
 
+        [HttpGet]
         public IActionResult GetMembers(Guid teamId)
         {
             Team team = repository.Get(teamId);

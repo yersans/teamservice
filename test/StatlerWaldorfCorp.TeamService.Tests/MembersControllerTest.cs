@@ -98,5 +98,21 @@ namespace StatlerWaldorfCorp.TeamService
             Assert.NotNull(members.Where(m => m.ID == firstMemberId).First());
             Assert.NotNull(members.Where(m => m.ID == secondMemberId).First());
         }
+
+        [Fact]
+        public void GetMembersForNewTeamIsEmpty()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            repository.Add(team);
+            //When
+            ICollection<Member> members = (ICollection<Member>)(controller.GetMembers(teamId) as ObjectResult).Value;
+            //Then
+            Assert.Empty(members);
+        }
     }
 }
