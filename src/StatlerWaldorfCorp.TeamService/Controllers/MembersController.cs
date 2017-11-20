@@ -56,9 +56,18 @@ namespace StatlerWaldorfCorp.TeamService
             }
         }
 
-        public ObjectResult GetMembers(Guid teamId)
+        public IActionResult GetMembers(Guid teamId)
         {
-            throw new NotImplementedException();
+            Team team = repository.Get(teamId);
+
+            if (team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                return this.Ok(team.Members);
+            }
         }
     }
 }
