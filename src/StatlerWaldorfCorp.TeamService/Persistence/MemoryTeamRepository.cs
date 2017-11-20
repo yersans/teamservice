@@ -28,11 +28,6 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
             return teams;
         }
 
-        public void AddTeam(Team team)
-        {
-            teams.Add(team);
-        }
-
         public Team Get(Guid id)
         {
             return teams.FirstOrDefault(t => t.ID == id);
@@ -50,7 +45,7 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
             return t;
         }
 
-        private Team Add(Team team)
+        public Team Add(Team team)
         {
             teams.Add(team);
             return team;
