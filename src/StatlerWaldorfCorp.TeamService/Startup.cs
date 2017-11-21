@@ -28,10 +28,7 @@ namespace hello_world
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World! " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-            });
+            app.UseMvc();
         }
     }
 }
