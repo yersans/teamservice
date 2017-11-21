@@ -4,3 +4,5 @@ test/StatlerWaldorfCorp.TeamService.Tests/obj
 src/StatlerWaldorfCorp.TeamService/bin
 test/StatlerWaldorfCorp.TeamService.Tests/bin
 .wercker
+test/StatlerWaldorfCorp.TeamService.Tests.Integration/bin
+test/StatlerWaldorfCorp.TeamService.Tests.Integration/obj
