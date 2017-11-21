@@ -184,5 +184,31 @@ namespace StatlerWaldorfCorp.TeamService
             Assert.Equal("Bob", testMember.FirstName);
             Assert.Equal("Jones", testMember.LastName);
         }
+
+        [Fact]
+        public void UpdateMembertoNonexistantMemberReturnsNoMatch()
+        {
+            //Given
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestController", teamId);
+            repository.Add(team);
+
+            Guid memberId = Guid.NewGuid();
+            Member newMember = new Member(memberId);
+            newMember.FirstName = "Jim";
+            controller.CreateMember(newMember, teamId);
+
+            Guid nonMatchedGuid = Guid.NewGuid();
+            Member updatedMember = new Member(nonMatchedGuid);
+            updatedMember.FirstName = "Bob";
+
+            //When
+            var result = controller.UpdateMember(updatedMember, teamId, nonMatchedGuid);
+            //Then
+            Assert.True(result is NotFoundResult);
+        }
     }
 }
