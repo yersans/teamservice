@@ -23,7 +23,7 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
             teams = teamsParam;
         }
 
-        public IEnumerable<Team> GetTeams()
+        public IEnumerable<Team> List()
         {
             return teams;
         }

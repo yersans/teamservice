@@ -23,7 +23,7 @@ namespace StatlerWaldorfCorp.TeamService
         [HttpGet]
         public virtual IActionResult GetAllTeams()
         {
-            return this.Ok(repository.GetTeams());
+            return this.Ok(repository.List());
         }
 
         [HttpPost]

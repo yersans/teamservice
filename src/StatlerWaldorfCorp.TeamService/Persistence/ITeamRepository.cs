@@ -7,7 +7,7 @@ namespace StatlerWaldorfCorp.TeamService.Persistence
 {
     public interface ITeamRepository
     {
-        IEnumerable<Team> GetTeams();
+        IEnumerable<Team> List();
         Team Add(Team team);
         Team Get(Guid id);
         Team Update(Team team);
