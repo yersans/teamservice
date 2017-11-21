@@ -38,7 +38,7 @@ namespace StatlerWaldorfCorp.TeamService
         public IActionResult GetMember(Guid teamId, Guid memberId)
         {
             Team team = repository.Get(teamId);
-            
+
             if (team == null)
             {
                 return this.NotFound();
@@ -46,8 +46,8 @@ namespace StatlerWaldorfCorp.TeamService
             else
             {
                 var q = team.Members.Where(m => m.ID == memberId);
-                
-                if (q.Count()<1)
+
+                if (q.Count() < 1)
                 {
                     return this.NotFound();
                 }
@@ -70,6 +70,31 @@ namespace StatlerWaldorfCorp.TeamService
             else
             {
                 return this.Ok(team.Members);
+            }
+        }
+
+        public IActionResult UpdateMember(Member updatedMember, Guid teamId, Guid memberId)
+        {
+            Team team = repository.Get(teamId);
+
+            if (team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                var q = team.Members.Where(m => m.ID == memberId);
+
+                if (q.Count() < 1)
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    team.Members.Remove(q.First());
+                    team.Members.Add(updatedMember);
+                    return this.Ok();
+                }
             }
         }
     }
