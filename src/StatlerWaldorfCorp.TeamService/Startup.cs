@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using StatlerWaldorfCorp.TeamService.Persistence;
 
-namespace hello_world
+namespace StatlerWaldorfCorp.TeamService
 {
     public class Startup
     {

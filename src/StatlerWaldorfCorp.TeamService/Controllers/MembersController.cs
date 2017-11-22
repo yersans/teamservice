@@ -17,7 +17,7 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
         [HttpPost]
-        public IActionResult CreateMember(Member newMember, Guid teamId)
+        public IActionResult CreateMember([FromBody]Member newMember, Guid teamId)
         {
             Team team = repository.Get(teamId);
 
@@ -75,7 +75,7 @@ namespace StatlerWaldorfCorp.TeamService
 
         [HttpPut]
         [Route("/teams/{teamId}/[controller]/{memberId}")]
-        public IActionResult UpdateMember(Member updatedMember, Guid teamId, Guid memberId)
+        public IActionResult UpdateMember([FromBody]Member updatedMember, Guid teamId, Guid memberId)
         {
             Team team = repository.Get(teamId);
 

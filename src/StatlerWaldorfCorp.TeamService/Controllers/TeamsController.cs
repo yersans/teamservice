@@ -27,7 +27,7 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
         [HttpPost]
-        public IActionResult CreateTeam(Team t)
+        public IActionResult CreateTeam([FromBody]Team t)
         {
             repository.Add(t);
             return this.Created($"/teams/{t.ID}", t);
@@ -49,7 +49,7 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateTeam(Team team, Guid id)
+        public IActionResult UpdateTeam([FromBody]Team team, Guid id)
         {
             team.ID = id;
 
