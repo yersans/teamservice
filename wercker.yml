@@ -60,4 +60,4 @@ deploy:
         password: $PASSWORD
         repository: yersans/teamservice
         registry: https://registry.hub.docker.com/v2
-        entrypoint: "/pipeline/source/app/docker_entrypoint.sh"
+        entrypoint: "/pipeline/source/app/docker-entrypoint.sh"
